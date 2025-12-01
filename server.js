@@ -9,7 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use(cors({
-  origin: 'http://192.168.4.1:8080' // allow your dashboard origin
+  origin: 'http://192.168.4.1:8000' // allow your dashboard origin
 }));
 
 mongoose.connect('mongodb://127.0.0.1:27017/ESP32')  
@@ -23,8 +23,10 @@ const ActionSchema = new mongoose.Schema({
 });
 
 const SensorSchema = new mongoose.Schema({
+  sensorId : String,
   name: String,
   value: Number,
+  period: Number,
   timestamp: { type: Date, default: Date.now }
 });
 
@@ -40,7 +42,7 @@ const EnvironmentSensor = mongoose.model('Sensor', SensorSchema, 'sensor');
 const Settings = mongoose.model('Settings', SettingsSchema, 'settings')
 
 app.post('/addData', async (req, res) => {
-  console.log('Nội dung request:', req.body);
+  console.log('Request:', req.body);
 
   const { collection, ...data } = req.body;
   try {
@@ -94,21 +96,24 @@ app.get('/getData10', async (req, res) => {
 });
 
 app.get('/getData', async (req, res) => {
-  const { collection, name } = req.query;
+  const { collection, sensorId } = req.query;
   try {
     let query = {};
-    if (name) {
-      query.name = name;
+    if (sensorId) {
+      query.sensorId = sensorId;
     }
 
-    if (collection === 'action') {
-      const data = await ActionHistory.find(query).sort({ timestamp: -1 }).limit(1).select("name action timestamp");
+    if (collection === 'sensor') {
+      const data = await EnvironmentSensor.find(query).sort({ timestamp: -1 }).limit(1).select("sensorId name value period timestamp");
+      console.log("Enviroment sensor send data successful");
       res.status(200).json(data);
-    } else if (collection === 'sensor') {
-      const data = await EnvironmentSensor.find(query).sort({ timestamp: -1 }).limit(1).select("name value timestamp");
-      console.log("Enviroment sensor send data successfual");
+    }
+    else if(collection === 'settings'){
+      const data = await Settings.find(query).sort({ timestamp: -1 }).limit(1).select("id name period timestamp");
+      console.log("Settings send data successful");
       res.status(200).json(data);
-    } else {
+    } 
+    else {
       res.status(400).json({ error: 'Invalid collection' });
     }
   } catch (err) {
