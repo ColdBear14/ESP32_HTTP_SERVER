@@ -73,18 +73,18 @@ app.post('/addData', async (req, res) => {
 });
 
 app.get('/getData10', async (req, res) => {
-  const { collection, name } = req.query;
+  const { collection, sensorId } = req.query;
   try {
     let query = {};
-    if (name) {
-      query.name = name;
+    if (sensorId) {
+      query.sensorId = sensorId;
     }
 
     if (collection === 'action') {
       const data = await ActionHistory.find(query).sort({ timestamp: -1 }).limit(10);
       res.status(200).json(data);
     } else if (collection === 'sensor') {
-      const data = await EnvironmentSensor.find(query).sort({ timestamp: -1 }).limit(10).select("name value timestamp");
+      const data = await EnvironmentSensor.find(query).sort({ timestamp: -1 }).limit(10).select("sensorId name value period timestamp");
       console.log("Enviroment sensor send data successfual");
       res.status(200).json(data);
     } else {
