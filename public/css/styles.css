@@ -1,0 +1,339 @@
+/* Định dạng chung */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #85CEA8;
+}
+
+h1 {
+    color: #ffffff;
+    margin-top: 30px;
+    letter-spacing: 2px;
+}
+
+.box {
+    border: 1.5px solid #adb5bd;
+    border-radius: 12px;
+    background-color: #fff;
+    padding: 28px 20px 20px 20px;
+    margin: 28px auto;
+    width: 380px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.09);
+    transition: box-shadow 0.2s;
+}
+
+.box:hover {
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+}
+
+button {
+    padding: 10px 28px;
+    font-size: 17px;
+    border: none;
+    border-radius: 6px;
+    background-color: #4361ee;
+    color: #fff;
+    cursor: pointer;
+    margin: 0 0 0 12px;
+    transition: background 0.2s, transform 0.1s;
+}
+
+button:hover {
+    background-color: #3a0ca3;
+    transform: translateY(-2px) scale(1.04);
+}
+
+p {
+    font-size: 24px;
+    color: #ffffff;
+    margin: 18px 0;
+}
+
+span[id^="state"] {
+    display: inline-block;
+    min-width: 38px;
+    font-weight: bold;
+    color: #fff;
+    background: #adb5bd;
+    border-radius: 4px;
+    padding: 3px 10px;
+    margin-left: 10px;
+    transition: background 0.2s;
+}
+
+span.state-on {
+    background: #06d6a0 !important;
+}
+
+span.state-off {
+    background: #e63946 !important;
+}
+
+@media (max-width: 400px) {
+    .box {
+        width: 95vw;
+        padding: 14px 2vw;
+    }
+    h1 {
+        font-size: 1.3em;
+    }
+    p {
+        font-size: 1em;
+    }
+}
+
+input[type="text"], input[type="password"] {
+    width: 90%;
+    padding: 8px 12px;
+    margin: 8px 0 16px 0;
+    border: 1px solid #adb5bd;
+    border-radius: 6px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background: #f8f9fa;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+    border-color: #4361ee;
+    box-shadow: 0 0 4px #4361ee33;
+    outline: none;
+}
+
+#result {
+    margin-top: 12px;
+    min-height: 24px;
+}
+
+.box div {
+    font-size: 21px; /* Increased font size */
+    margin-bottom: 10px; /* Space between items */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left; /* Ensure text is left-aligned */
+    margin: 18px 0;
+
+}
+
+h2 {
+    color: #333; /* Dark gray text color */
+    font-size: 24px; /* Font size */
+    margin-top: 10px; /* Space above the heading */
+    margin-bottom: 10px; /* Space below the heading */
+    letter-spacing: 1px; /* Spacing between letters */
+    text-transform: uppercase; /* Uppercase text */
+}
+
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    accent-color: #007bff; /* Change the color of the checkbox */
+}
+
+/* Style for the submit button */
+input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+input[type="email"],
+input[type="number"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: calc(60% - 10px); /* Adjust width to fit within the box */
+    box-sizing: border-box; /* Include padding and border in element's total width */
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+input[type="email"]:focus,
+input[type="number"]:focus {
+    border-color: #007bff; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+}
+
+  .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 200px;
+      height: 100%;
+      background-color: #f4f4f4;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  }
+
+  .sidebar h2 {
+      margin-top: 0;
+  }
+
+  .sidebar ul {
+      list-style-type: none;
+      padding: 0;
+  }
+
+  .sidebar ul li {
+      margin: 10px 0;
+        font-size: 22px;
+        padding: 8px 0;
+  }
+
+  .sidebar ul li a {
+      text-decoration: none;
+      color: #333;
+  }
+
+  .sidebar ul li a:hover {
+      color: #007BFF;
+  }
+
+  /* Adjust the main content to not overlap with the sidebar */
+  body {
+      margin-left: 220px; /* Adjust this value based on sidebar width */
+    padding: 20px;
+    
+  }
+  
+  .sidebar ul li a i {
+    margin-right: 8px; /* Space between icon and text */
+    font-size: 20px; /* Adjust icon size */
+    vertical-align: middle; /* Align icon with text */
+}
+
+.navigation-buttons {
+    margin: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.navigation-buttons button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.navigation-buttons button:hover {
+    background-color: #0056b3;
+}
+
+.chart-row {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    align-items: flex-start;
+}
+.box {
+    min-width: 400px;
+    max-width: 600px;
+    flex: 1;
+}
+
+/* Add these styles at the end of the file */
+.sensor-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 0.5fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.sensor-box {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.09);
+    transition: box-shadow 0.2s;
+}
+
+.sensor-box:hover {
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+}
+
+.sensor-box h3 {
+    margin: 0 0 15px 0;
+    color: #333;
+    font-size: 1.5em;
+}
+
+.sensor-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sensor-value {
+    font-size: 2em;
+    font-weight: bold;
+    color: #4361ee;
+}
+
+.sensor-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.name-setting,
+.period-setting {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.name-setting,
+.period-setting label {
+    font-size: 1.5em;
+    color: #000000;
+}
+
+.sensor-settings input[type="text"],
+.sensor-settings input[type="number"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.9em;
+    width: 50%;
+}
+
+.sensor-settings input[type="number"] {
+    width: 80px;
+}
+
+.sensor-settings button {
+    background-color: #4361ee;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s;
+    width: 30%;
+    align-self: center;
+}
+
+.sensor-settings button:hover {
+    background-color: #3a0ca3;
+}

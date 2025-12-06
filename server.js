@@ -2,6 +2,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const path = require('path');
 const os = require('os');
 const cors = require('cors');
 
@@ -9,7 +10,8 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use(cors({
-  origin: 'http://192.168.4.1:8000' // allow your dashboard origin
+origin: '*',
+methods: ['GET', 'POST'],  
 }));
 
 mongoose.connect('mongodb://127.0.0.1:27017/ESP32')  
@@ -119,6 +121,12 @@ app.get('/getData', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: 'Error retrieving data' });
   }
+});
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'view', 'index.html'));
 });
 
 app.listen(3000, () => {
