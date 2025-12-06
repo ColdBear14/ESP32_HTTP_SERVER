@@ -7,7 +7,7 @@ const sensors = [
 ];
 
 async function fetchSensorData(collection, sensorId = "") {
-    let url = `http://127.0.0.1:3000/getData10?collection=${collection}&sensorId=${sensorId}`;
+    let url = `http://10.28.128.138:3000/getData10?collection=${collection}&sensorId=${sensorId}`;
     const response = await fetch(url);
     if (!response.ok) throw new Error("Network response was not ok");
 

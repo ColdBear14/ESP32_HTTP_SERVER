@@ -126,10 +126,17 @@ app.get('/getData', async (req, res) => {
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'view', 'index.html'));
+    res.sendFile(path.join(__dirname, 'view', 'home.html'));
+});
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, 'view', 'dashboard.html'));
+});
+app.get('/device', (req, res) => {
+    res.sendFile(path.join(__dirname, 'view', 'device.html'));
 });
 
-app.listen(3000, () => {
+
+const server =app.listen(3000, () => {
   const interfaces = os.networkInterfaces();
   console.log('Tất cả địa chỉ mạng:');
   
@@ -142,4 +149,35 @@ app.listen(3000, () => {
   }
   
   console.log(`Server started on port 3000`);
+});
+
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', (ws) => {
+    console.log('Một client vừa kết nối WebSocket');
+
+    ws.on('message', (message) => {
+        const messageString = message.toString();
+        console.log('Nhận được tin nhắn:', messageString);
+
+        try {
+            const data = JSON.parse(messageString);
+            
+            if (data.action === 'settings') {
+                wss.clients.forEach((client) => {
+                    if (client !== ws && client.readyState === WebSocket.OPEN) {
+                        client.send(JSON.stringify(data));
+                    }
+                });
+                console.log("Đã chuyển tiếp settings xuống ESP32");
+            }
+        } catch (e) {
+            console.error("Lỗi parse JSON:", e);
+        }
+    });
+
+    ws.on('close', () => {
+        console.log('Client đã ngắt kết nối');
+    });
 });

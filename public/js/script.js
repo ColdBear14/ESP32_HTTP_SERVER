@@ -1,53 +1,32 @@
-const ws = new WebSocket(`ws://${location.host}/ws`); // Kết nối WebSocket
-
+// Cấu hình danh sách cảm biến
 const sensors = [
-    { id: 1, name: 'Temperature', unit: '°C', period: 10},
-    { id: 2, name: 'Humidity', unit: '%', period: 10},
-    { id: 3, name: 'Lux', unit: 'Lux', period: 10},
+    { id: 1 }, 
+    { id: 2 }, 
+    { id: 3 }
 ];
 
+// Cấu hình ngưỡng cảnh báo (BẠN CÓ THỂ CHỈNH SỬA Ở ĐÂY)
+const ALERTS = {
+    1: { max: 40.0, spike: 2.0 },   // Temp: Quá 40 độ hoặc tăng nhanh > 2 độ
+    2: { max: 90.0, spike: 10.0 },  // Humid: Quá 90% hoặc tăng nhanh > 10%
+    3: { max: 1000, spike: 200 }    // Lux: Quá 1000 hoặc tăng nhanh > 200
+};
+
+// Lưu trữ giá trị cũ để so sánh: { "1": 25.5, "2": 60 ... }
+let previousValues = {}; 
+
 async function fetchSensorData(collection, sensorId = "") {
-    let url = `http://10.135.180.108:3000/getData?collection=${collection}&sensorId=${sensorId}`;
+    // SỬA IP SERVER CỦA BẠN
+    let url = `http://10.28.128.138:3000/getData?collection=${collection}&sensorId=${sensorId}`;
     try  {
         const response = await fetch(url);
         if (!response.ok) throw new Error("Network response was not ok");
-
         const data = await response.json();
-        return data;
+        return data; // Trả về mảng hoặc object
     }
     catch (error) {
-        console.error("Fetch sensor data error:", error);
+        console.error("Fetch error:", error);
         return null;
-    }
-}
-
-async function loadStoredSettings() {
-    for (const sensor of sensors) {
-
-        
-        let url = `http://10.135.180.108:3000/getData?collection=settings&id=${sensor.id}`;
-        
-        try {
-            const response = await fetch(url);
-            const rawData = await response.json();
-
-            if (Array.isArray(rawData) && rawData.length > 0) {
-                const setting = rawData[0];
-                
-                // Cập nhật lên giao diện
-                const nameInput = document.getElementById(`sensorName${setting.id}`);
-                const periodInput = document.getElementById(`sensorPeriod${setting.id}`);
-                
-                if (nameInput) nameInput.value = setting.name;
-                if (periodInput) periodInput.value = setting.period;
-                
-                // Cập nhật luôn biến local sensor sensors để đồng bộ
-                sensor.name = setting.name;
-                sensor.period = setting.period;
-            }
-        } catch (e) {
-            console.log("Không tải được settings cho ID " + sensor.id);
-        }
     }
 }
 
@@ -55,61 +34,73 @@ async function updateAllSensorValues() {
     for (const sensor of sensors) {
         const rawData = await fetchSensorData("sensor", sensor.id);
         
-        // Kiểm tra xem dữ liệu có hợp lệ không
-        if (Array.isArray(rawData) && rawData.length > 0) {
-            const data = rawData[0]; // Lấy phần tử mới nhất
-            
-            const element = document.getElementById(`sensorValue${data.sensorId}`);
-            
-            if (element) {
-                element.textContent = data.value; // Cập nhật giá trị
+        let data = null;
+        if (Array.isArray(rawData) && rawData.length > 0) data = rawData[0];
+        else if (rawData && rawData.value !== undefined) data = rawData;
 
+        if (data) {
+            // 1. Cập nhật giao diện cơ bản
+            const valEl = document.getElementById(`sensorValue${sensor.id}`);
+            const nameEl = document.getElementById(`sensorName${sensor.id}`);
+            const idEl = document.getElementById(`sensorId${sensor.id}`);
+            const periodEl = document.getElementById(`sensorPeriod${sensor.id}`);
+            const timeEl = document.getElementById(`sensorTime${sensor.id}`);
+            const boxEl = document.getElementById(`box${sensor.id}`);
+            const statusEl = document.getElementById(`status${sensor.id}`);
+
+            const currentValue = parseFloat(data.value);
+            
+            // Format thời gian từ ISO string sang giờ địa phương dễ đọc
+            const dateObj = new Date(data.timestamp);
+            const timeString = dateObj.toLocaleTimeString() + " " + dateObj.toLocaleDateString();
+
+            if(valEl) valEl.textContent = currentValue;
+            if(nameEl) nameEl.textContent = data.name;
+            if(idEl) idEl.textContent = data.sensorId;
+            if(periodEl) periodEl.textContent = data.period;
+            if(timeEl) timeEl.textContent = timeString;
+
+            // 2. Logic So Sánh và Cảnh Báo
+            let isAlert = false;
+            let alertMsg = "Normal";
+            
+            // Lấy giá trị cũ
+            const oldValue = previousValues[sensor.id];
+            const config = ALERTS[sensor.id];
+
+            // Kiểm tra vượt ngưỡng (Max Value)
+            if (currentValue > config.max) {
+                isAlert = true;
+                alertMsg = `⚠️ Warning: Value too high (> ${config.max})`;
             }
 
-        } 
-        // Dự phòng trường hợp trả về object đơn lẻ (nếu bạn đổi logic server sau này)
-        else if (rawData && rawData.value !== undefined && rawData.sensorId !== undefined) {
-             const element = document.getElementById(`sensorValue${rawData.sensorId}`);
-             if (element) {
-                element.textContent = rawData.value;
+            // Kiểm tra tăng đột biến (Spike)
+            if (oldValue !== undefined) {
+                const diff = currentValue - oldValue;
+                if (diff > config.spike) {
+                    isAlert = true;
+                    alertMsg = `⚠️ Alert: Sudden spike (+${diff.toFixed(2)})`;
+                }
             }
+
+            // Cập nhật trạng thái giao diện (Màu đỏ nếu Alert)
+            if (isAlert) {
+                boxEl.classList.add("alert-state"); // Thêm class đỏ
+                statusEl.textContent = alertMsg;
+                statusEl.style.color = "#ffeb3b"; // Màu chữ vàng cảnh báo
+            } else {
+                boxEl.classList.remove("alert-state"); // Xóa class đỏ
+                statusEl.textContent = "Stable";
+                statusEl.style.color = "#e9ecef";
+            }
+
+            // 3. Lưu giá trị hiện tại làm giá trị cũ cho lần sau
+            previousValues[sensor.id] = currentValue;
         }
     }
 }
 
-
-function updateSensorSettings(sensorId) {
-    const name = document.getElementById(`sensorName${sensorId}`).value;
-    const period = parseInt(document.getElementById(`sensorPeriod${sensorId}`).value);
-    
-    // Validate period
-    if (period < 1) {
-        alert('Period must be at least 1 second');
-        return;
-    }
-
-    // Send to server
-    ws.send(JSON.stringify({
-        action: "settings",
-        id: sensorId,
-        name: name,
-        period: period
-    }));
-
-    // Visual feedback
-    const button = document.querySelector(`button[onclick="updateSensorSettings(${sensorId})"]`);
-    button.textContent = 'Saved!';
-    setTimeout(() => {
-        button.textContent = 'Save Settings';
-    }, 1000);
-}
-
-// Initialize everything when page loads
 document.addEventListener('DOMContentLoaded', () => {
-    loadStoredSettings();
     updateAllSensorValues();
     setInterval(updateAllSensorValues, 5000);
 });
-
-
-

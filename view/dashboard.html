@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOLO_UNO - Dashboard</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/all.min.css">
+</head>
+<body>
+    <h1>Welcome to YOLO_UNO</h1>
+    <p>Control your devices and monitor sensors!</p>
+
+    <div class="sidebar">
+        <h2>Navigation</h2>
+        <ul>            
+            <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="/device"><i class="fas fa-microchip"></i> Device</a></li>
+            <li><a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        </ul>
+    </div>
+
+    <div class="vertical-container">
+        <div class="box">
+            <h2>Temperature</h2>
+            <canvas id="sensorChart1"></canvas>
+        </div>
+
+        <div class="box">
+            <h2>Humidity</h2>
+            <canvas id="sensorChart2"></canvas>
+        </div>
+
+        <div class="box">
+            <h2>Lux</h2>
+            <canvas id="sensorChart3"></canvas>
+        </div>
+    </div>
+
+    <script src="js/chart.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>

@@ -1,339 +1,354 @@
-/* Định dạng chung */
+:root {
+    --primary-color: #4361ee;
+    --secondary-color: #3f37c9;
+    --accent-color: #4895ef;
+    --bg-color: #85cea8;
+    --sidebar-bg: #ffffff;
+    --text-color: #333;
+    --text-muted: #6c757d;
+    --danger-color: #d90429;
+    --success-color: #06d6a0;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+    --hover-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* --- RESET & BASIC SETUP --- */
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    text-align: center;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #85CEA8;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    /* Chừa lề trái cho sidebar */
+    padding-left: 240px; 
+    min-height: 100vh;
 }
 
 h1 {
     color: #ffffff;
-    margin-top: 30px;
-    letter-spacing: 2px;
-}
-
-.box {
-    border: 1.5px solid #adb5bd;
-    border-radius: 12px;
-    background-color: #fff;
-    padding: 28px 20px 20px 20px;
-    margin: 28px auto;
-    width: 380px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.09);
-    transition: box-shadow 0.2s;
-}
-
-.box:hover {
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
-}
-
-button {
-    padding: 10px 28px;
-    font-size: 17px;
-    border: none;
-    border-radius: 6px;
-    background-color: #4361ee;
-    color: #fff;
-    cursor: pointer;
-    margin: 0 0 0 12px;
-    transition: background 0.2s, transform 0.1s;
-}
-
-button:hover {
-    background-color: #3a0ca3;
-    transform: translateY(-2px) scale(1.04);
-}
-
-p {
-    font-size: 24px;
-    color: #ffffff;
-    margin: 18px 0;
-}
-
-span[id^="state"] {
-    display: inline-block;
-    min-width: 38px;
-    font-weight: bold;
-    color: #fff;
-    background: #adb5bd;
-    border-radius: 4px;
-    padding: 3px 10px;
-    margin-left: 10px;
-    transition: background 0.2s;
-}
-
-span.state-on {
-    background: #06d6a0 !important;
-}
-
-span.state-off {
-    background: #e63946 !important;
-}
-
-@media (max-width: 400px) {
-    .box {
-        width: 95vw;
-        padding: 14px 2vw;
-    }
-    h1 {
-        font-size: 1.3em;
-    }
-    p {
-        font-size: 1em;
-    }
-}
-
-input[type="text"], input[type="password"] {
-    width: 90%;
-    padding: 8px 12px;
-    margin: 8px 0 16px 0;
-    border: 1px solid #adb5bd;
-    border-radius: 6px;
-    font-size: 16px;
-    box-sizing: border-box;
-    background: #f8f9fa;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-input[type="text"]:focus, input[type="password"]:focus {
-    border-color: #4361ee;
-    box-shadow: 0 0 4px #4361ee33;
-    outline: none;
-}
-
-#result {
-    margin-top: 12px;
-    min-height: 24px;
-}
-
-.box div {
-    font-size: 21px; /* Increased font size */
-    margin-bottom: 10px; /* Space between items */
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    text-align: left; /* Ensure text is left-aligned */
-    margin: 18px 0;
-
+    font-size: 4rem;
+    margin-top: 40px;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+    text-align: center;
 }
 
 h2 {
-    color: #333; /* Dark gray text color */
-    font-size: 24px; /* Font size */
-    margin-top: 10px; /* Space above the heading */
-    margin-bottom: 10px; /* Space below the heading */
-    letter-spacing: 1px; /* Spacing between letters */
-    text-transform: uppercase; /* Uppercase text */
+    color: #ffffff;
+    font-size: 1.25rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
 }
 
-input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    margin-left: 10px;
-    cursor: pointer;
-    accent-color: #007bff; /* Change the color of the checkbox */
+p {
+    font-size: 2rem;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 40px;
 }
 
-/* Style for the submit button */
-input[type="submit"] {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-input[type="submit"]:hover {
-    background-color: #0056b3;
-}
-
-input[type="email"],
-input[type="number"] {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: calc(60% - 10px); /* Adjust width to fit within the box */
-    box-sizing: border-box; /* Include padding and border in element's total width */
-    margin-top: 5px;
-    margin-bottom: 10px;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
-}
-
-input[type="email"]:focus,
-input[type="number"]:focus {
-    border-color: #007bff; /* Change border color on focus */
-    outline: none; /* Remove default outline */
-}
-
-  .sidebar {
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 200px;
-      height: 100%;
-      background-color: #f4f4f4;
-      padding: 20px;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-  }
-
-  .sidebar h2 {
-      margin-top: 0;
-  }
-
-  .sidebar ul {
-      list-style-type: none;
-      padding: 0;
-  }
-
-  .sidebar ul li {
-      margin: 10px 0;
-        font-size: 22px;
-        padding: 8px 0;
-  }
-
-  .sidebar ul li a {
-      text-decoration: none;
-      color: #333;
-  }
-
-  .sidebar ul li a:hover {
-      color: #007BFF;
-  }
-
-  /* Adjust the main content to not overlap with the sidebar */
-  body {
-      margin-left: 220px; /* Adjust this value based on sidebar width */
-    padding: 20px;
-    
-  }
-  
-  .sidebar ul li a i {
-    margin-right: 8px; /* Space between icon and text */
-    font-size: 20px; /* Adjust icon size */
-    vertical-align: middle; /* Align icon with text */
-}
-
-.navigation-buttons {
-    margin: 20px;
+/* --- SIDEBAR NAVIGATION --- */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 240px;
+    height: 100%;
+    background-color: var(--sidebar-bg);
+    padding: 30px 20px;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+    z-index: 1000;
     display: flex;
+    flex-direction: column;
+}
+
+.sidebar h2 {
+    color: var(--primary-color);
+    border-bottom: none;
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 800;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+}
+
+.sidebar ul li {
+    margin: 10px 0;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.sidebar ul li a i {
+    margin-right: 15px;
+    width: 25px;
+    text-align: center;
+    color: var(--text-muted);
+    transition: color 0.3s;
+}
+
+.sidebar ul li a:hover {
+    background-color: #eef2ff; /* Màu nền xanh rất nhạt khi hover */
+    color: var(--primary-color);
+    transform: translateX(5px);
+}
+
+.sidebar ul li a:hover i {
+    color: var(--primary-color);
+}
+
+/* --- MAIN LAYOUT CONTAINERS (VERTICAL) --- */
+/* Dùng chung cho cả dashboard và device để xếp dọc */
+.vertical-container, 
+.sensor-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 0 20px 50px 20px;
+    width: 100%;
+    max-width: 800px; /* Giới hạn chiều rộng để nhìn gọn hơn */
+    margin: 0 auto;   /* Căn giữa trang */
+}
+
+/* --- CARDS / BOXES STYLE --- */
+.box, 
+.sensor-box {
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 30px;
+    width: 100%; /* Chiếm hết chiều rộng của container cha */
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid rgba(0,0,0,0.02);
+    position: relative;
+    overflow: hidden;
+}
+
+.box:hover, 
+.sensor-box:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--hover-shadow);
+}
+
+/* --- SENSOR SPECIFIC STYLES (DEVICE PAGE) --- */
+.sensor-box h3 {
+    margin: 0 0 20px 0;
+    color: var(--text-color);
+    font-size: 2.0rem;
+    display: flex;
+    align-items: center;
     gap: 10px;
 }
 
-.navigation-buttons button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    background-color: #007BFF;
-    color: white;
-    transition: background-color 0.3s;
-}
-
-.navigation-buttons button:hover {
-    background-color: #0056b3;
-}
-
-.chart-row {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    justify-content: center;
-    align-items: flex-start;
-}
-.box {
-    min-width: 400px;
-    max-width: 600px;
-    flex: 1;
-}
-
-/* Add these styles at the end of the file */
-.sensor-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 0.5fr));
-    gap: 20px;
-    padding: 20px;
-}
-
-.sensor-box {
-    background-color: #fff;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.09);
-    transition: box-shadow 0.2s;
-}
-
-.sensor-box:hover {
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
-}
-
-.sensor-box h3 {
-    margin: 0 0 15px 0;
-    color: #333;
-    font-size: 1.5em;
+.sensor-box h3 i {
+    color: var(--accent-color);
 }
 
 .sensor-content {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    align-items: center;
+    justify-content: center;
 }
 
 .sensor-value {
-    font-size: 2em;
-    font-weight: bold;
-    color: #4361ee;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 15px 0;
+    text-shadow: 2px 2px 4px rgba(67, 97, 238, 0.1);
 }
 
-.sensor-settings {
+.sensor-info {
+    width: 100%;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px dashed #e0e0e0;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
+    font-size: 0.95rem;
 }
 
-.name-setting,
-.period-setting {
+.sensor-info p {
+    margin: 0;
+    text-align: left;
+    color: var(--text-muted);
+    font-size: 0.95rem;
     display: flex;
-    align-items: center;
-    gap: 10px;
+    justify-content: space-between;
 }
 
-.name-setting,
-.period-setting label {
-    font-size: 1.5em;
-    color: #000000;
+.sensor-info span {
+    font-weight: 600;
+    color: var(--text-color);
 }
 
-.sensor-settings input[type="text"],
-.sensor-settings input[type="number"] {
+/* --- STATUS & ALERTS --- */
+.status-msg {
+    margin-top: 15px !important;
+    text-align: center !important;
+    background: #f8f9fa;
     padding: 8px;
-    border: 1px solid #ccc;
     border-radius: 6px;
-    font-size: 0.9em;
-    width: 50%;
+    font-weight: 600;
+    display: block !important; /* Ghi đè flex của thẻ p cha */
 }
 
-.sensor-settings input[type="number"] {
-    width: 80px;
-}
-
-.sensor-settings button {
-    background-color: #4361ee;
+/* Alert State Animation */
+.sensor-box.alert-state {
+    background-color: var(--danger-color) !important;
+    border-color: var(--danger-color);
     color: white;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.9em;
-    transition: background-color 0.2s;
-    width: 30%;
-    align-self: center;
+    animation: pulse-red 1.5s infinite;
 }
 
-.sensor-settings button:hover {
-    background-color: #3a0ca3;
+.sensor-box.alert-state h3,
+.sensor-box.alert-state h3 i,
+.sensor-box.alert-state .sensor-value,
+.sensor-box.alert-state .sensor-info p,
+.sensor-box.alert-state .sensor-info span {
+    color: white !important;
+    text-shadow: none;
+}
+
+.sensor-box.alert-state .sensor-info {
+    border-top-color: rgba(255,255,255,0.3);
+}
+
+.sensor-box.alert-state .status-msg {
+    background: rgba(0,0,0,0.2);
+    color: #ffeb3b !important;
+}
+
+@keyframes pulse-red {
+    0% { box-shadow: 0 0 0 0 rgba(217, 4, 41, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(217, 4, 41, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(217, 4, 41, 0); }
+}
+
+/* --- HOME PAGE IMAGE --- */
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+}
+
+/* --- BUTTONS & FORMS (Nếu cần dùng lại) --- */
+button {
+    padding: 10px 24px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--primary-color);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+button:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+/* --- RESPONSIVE DESIGN (MOBILE) --- */
+@media (max-width: 768px) {
+    body {
+        padding-left: 0; /* Bỏ lề trái trên mobile */
+        padding-bottom: 80px; /* Chừa chỗ cho menu dưới cùng nếu cần */
+    }
+
+    /* Biến Sidebar thành menu ngang ở trên cùng hoặc ẩn đi */
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 15px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .sidebar h2 {
+        margin: 0;
+        font-size: 1.2rem;
+    }
+
+    .sidebar ul {
+        display: flex;
+        justify-content: flex-end;
+        gap: 15px;
+        margin: 0;
+        width: auto;
+    }
+    
+    .sidebar ul li {
+        margin: 0;
+    }
+
+    .sidebar ul li a {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    .sidebar ul li a span {
+        display: none; /* Ẩn chữ trên mobile, chỉ hiện icon */
+    }
+
+    .sidebar ul li a i {
+        margin-right: 0;
+        font-size: 1.2rem;
+    }
+
+    /* Container chỉnh lại lề */
+    .vertical-container, 
+    .sensor-container {
+        padding: 20px 15px;
+        width: 100%;
+    }
+
+    .box, .sensor-box {
+        padding: 20px;
+    }
+
+    .sensor-value {
+        font-size: 2.8rem;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+        margin-top: 20px;
+    }
 }
